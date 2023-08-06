@@ -17,12 +17,12 @@ const updateConfigValues = async () => {
   try {
     for (const fieldName in configValues) {
       const fieldValues = JSON.stringify(configValues[fieldName]);
-      const existingFieldValues = await fetchConfigValues(fieldName);
+      // const existingFieldValues = await fetchConfigValues(fieldName);
       // console.log('fieldValues:', fieldValues);
 
       // console.log('fieldName:', fieldName);
 
-      if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
+      // if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
           TableName: tableName,
           Item: {
@@ -35,9 +35,9 @@ const updateConfigValues = async () => {
 
 
         console.log(`Config values for ${fieldName} updated successfully.`);
-      } else {
-        console.log(`Config values for ${fieldName} are already up to date. Skipping update.`);
-      }
+      // } else {
+      //   console.log(`Config values for ${fieldName} are already up to date. Skipping update.`);
+      // }
     }
 
     console.log('All config values updated successfully.');
