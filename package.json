@@ -15,6 +15,7 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.385.0",
     "aws-sdk": "^2.1430.0",
     "serverless": "^3.23.0",
     "serverless-plugin-scripts": "^1.0.2"
