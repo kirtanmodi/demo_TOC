@@ -51,9 +51,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-       - run:
+      - run:
           name: Install required modules
-          command: npm install aws-sdk
+          command: npm install <module-name>
       - run:
           name: Update config values table
           command: npm run update-config
