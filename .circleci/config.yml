@@ -1,0 +1,72 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7.0
+
+aliases:
+  - &node_executor
+    - docker:
+        - image: cimg/node:14.19.1
+
+jobs:
+
+  build:
+    <<: *node_executor
+    steps:
+      - checkout
+      - node/install-npm
+      - node/install-packages
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+
+  deploy:
+    <<: *node_executor
+    parameters:
+      stage:
+        type: string
+        default: dev
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Set deployment env vars
+          command: |
+            # Put your environment variable setup here if needed
+      - run:
+          name: Run serverless packaging
+          command: npm run build:<< parameters.stage >>
+      - run:
+          name: Deploy serverless package
+          command: npm run deploy:<< parameters.stage >>
+
+  update_config:
+    <<: *node_executor
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Update config values table
+          command: npm run update-config
+
+workflows:
+
+  main_workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
+      - update_config:
+          requires:
+            - deploy
+          filters:
+            branches:
+              only: main

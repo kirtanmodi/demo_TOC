@@ -1,0 +1,46 @@
+service: demo-toc
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-south-1
+  environment:
+    CURRENT_STAGE: ${sls:stage}
+    CONFIG_VALUES_TABLE: ${self:service}-${self:provider.stage}-config-values
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: Fn::GetAtt: [ConfigValuesTable, Arn]
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    ConfigValuesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-${self:provider.stage}-config-values
+        AttributeDefinitions:
+          - AttributeName: value
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
