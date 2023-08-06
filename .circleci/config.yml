@@ -39,9 +39,6 @@ jobs:
             # export AWS_ACCESS_KEY_ID=<your-access-key-id>
             # export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
       - run:
-          name: Run serverless packaging
-          command: npm run build:<< parameters.stage >>
-      - run:
           name: Deploy serverless package
           command: serverless deploy --stage << parameters.stage >>
 
