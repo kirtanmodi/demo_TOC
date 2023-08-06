@@ -23,6 +23,7 @@ const updateConfigValues = async () => {
           TableName: tableName,
           Item: {
             value: fieldName,
+            data: fieldValues,
           },
         };
 

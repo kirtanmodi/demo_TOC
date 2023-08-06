@@ -1,36 +1,26 @@
-const AWS = require('aws-sdk');
-const docClient = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, GetItemCommand } = require('@aws-sdk/client-dynamodb');
 
-exports.handler = async (event, context) => {
+const client = new DynamoDBClient({ region: 'ap-south-1' });
+const tableName = 'demo-toc-config-values';
+
+exports.handler = async (event) => {
   try {
-    // Get the fieldName from the input event
-    const { fieldName } = JSON.parse(event.body);
+    const fieldName = event.fieldName; // Assuming the field name is provided in the event object
+    const fieldValues = await fetchConfigValues(fieldName);
 
-    // Check if the fieldName exists in the request
-    if (!fieldName) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: 'Missing fieldName in the request.' }),
-      };
-    }
-
-    // Fetch the config value based on the fieldName
-    const configValue = await fetchConfigValue(fieldName);
-
-    // If the config value is found, return it
-    if (configValue) {
+    if (fieldValues) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ value: configValue }),
+        body: JSON.stringify(fieldValues),
       };
     } else {
       return {
         statusCode: 404,
-        body: JSON.stringify({ message: `Config value for ${fieldName} not found.` }),
+        body: JSON.stringify({ message: 'Field name not found in config values.' }),
       };
     }
   } catch (error) {
-    console.error('Error fetching config value:', error);
+    console.error('Error fetching config values:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Internal server error.' }),
@@ -38,12 +28,17 @@ exports.handler = async (event, context) => {
   }
 };
 
-const fetchConfigValue = async (fieldName) => {
-  const queryParams = {
-    TableName: process.env.CONFIG_VALUES_TABLE,
-    Key: { id: fieldName },
-  };
+const fetchConfigValues = async (fieldName) => {
+  try {
+    const queryParams = {
+      TableName: tableName,
+      Key: { value: fieldName },
+    };
 
-  const data = await docClient.get(queryParams).promise();
-  return data.Item ? data.Item.data : null;
+    const data = await client.send(new GetItemCommand(queryParams));
+    return data.Item ? data.Item.data : null;
+  } catch (error) {
+    console.error('Error fetching config values:', error);
+    throw error;
+  }
 };
