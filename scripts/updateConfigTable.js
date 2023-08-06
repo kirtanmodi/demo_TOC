@@ -10,7 +10,8 @@ const tableName = process.env.CONFIG_VALUES_TABLE;
 
 const updateConfigValues = async () => {
 
-  console.log('table name', tableName);
+  console.log('process.env.CONFIG_VALUES_TABLE:', process.env);
+  console.log('tableName:', tableName);
   try {
     for (const fieldName in configValues) {
       const fieldValues = configValues[fieldName];
