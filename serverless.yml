@@ -6,6 +6,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: ap-south-1
+  stage: ${opt:stage, 'dev'}
   environment:
     CURRENT_STAGE: ${sls:stage}
     CONFIG_VALUES_TABLE: ${self:service}-${self:provider.stage}-config-values
