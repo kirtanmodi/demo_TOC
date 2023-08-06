@@ -14,8 +14,9 @@ jobs:
     <<: *node_executor
     steps:
       - checkout
-      - node/install-npm
-      - node/install-packages
+      - run:
+          name: Install dependencies
+          command: npm install
       - persist_to_workspace:
           root: ~/project
           paths:
