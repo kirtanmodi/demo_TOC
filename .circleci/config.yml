@@ -32,9 +32,6 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: Install Serverless framework
-          command: npm install -g serverless
-      - run:
           name: Set deployment env vars
           command: |
             # Add your environment variable setup here if needed
