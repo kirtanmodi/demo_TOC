@@ -36,7 +36,7 @@ const updateConfigValues = async () => {
 
 const fetchConfigValues = async (fieldName) => {
   const queryParams = {
-    TableName: Process.env.CONFIG_TABLE_NAME,
+    TableName: process.env.CONFIG_VALUES_TABLE,
     Key: { id: fieldName },
   };
 
