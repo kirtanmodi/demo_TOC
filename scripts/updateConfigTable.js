@@ -1,21 +1,14 @@
-const AWS = require('aws-sdk');
+const { DynamoDBClient, UpdateItemCommand } = require('@aws-sdk/client-dynamodb');
 const configValues = require('../configValues');
 
-
-AWS.config.update({ region: 'ap-south-1' });
-
-const docClient = new AWS.DynamoDB.DocumentClient();
+const client = new DynamoDBClient({ region: 'ap-south-1' });
 const tableName = 'demo-toc-config-values';
 
-
 const updateConfigValues = async () => {
-
-  console.log('tableName:', tableName);
   try {
     for (const fieldName in configValues) {
       const fieldValues = configValues[fieldName];
       const existingFieldValues = await fetchConfigValues(fieldName);
-
 
       if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
@@ -23,10 +16,10 @@ const updateConfigValues = async () => {
           Key: { value: fieldName },
           UpdateExpression: 'SET #data = :fieldValues',
           ExpressionAttributeNames: { '#data': 'data' },
-          ExpressionAttributeValues: { ':fieldValues': fieldValues },
+          ExpressionAttributeValues: { ':fieldValues': { S: fieldValues } }, // Assuming fieldValues is a string; adjust data type accordingly
         };
 
-        await docClient.update(updateParams).promise();
+        await client.send(new UpdateItemCommand(updateParams));
         console.log(`Config values for ${fieldName} updated successfully.`);
       } else {
         console.log(`Config values for ${fieldName} are already up to date. Skipping update.`);
