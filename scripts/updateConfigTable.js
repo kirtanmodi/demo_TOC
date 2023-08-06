@@ -10,7 +10,6 @@ const tableName = 'demo-toc-config-values';
 
 const updateConfigValues = async () => {
 
-  console.log('process.env.CONFIG_VALUES_TABLE:', process.env);
   console.log('tableName:', tableName);
   try {
     for (const fieldName in configValues) {
@@ -21,7 +20,7 @@ const updateConfigValues = async () => {
       if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
           TableName: tableName,
-          Key: { id: fieldName },
+          Key: { value: fieldName },
           UpdateExpression: 'SET #data = :fieldValues',
           ExpressionAttributeNames: { '#data': 'data' },
           ExpressionAttributeValues: { ':fieldValues': fieldValues },
@@ -44,7 +43,7 @@ const updateConfigValues = async () => {
 const fetchConfigValues = async (fieldName) => {
   const queryParams = {
     TableName: tableName,
-    Key: { id: fieldName },
+    Key: { value: fieldName },
   };
 
   const data = await docClient.get(queryParams).promise();
