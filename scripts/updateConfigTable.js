@@ -6,7 +6,7 @@ AWS.config.update({ region: 'ap-south-1' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = 'demo-toc-config-values';
-const test = process.env.CONFIG_VALUES_TABLE
+const test = process.env.CURRENT_STAGE
 
 
 const updateConfigValues = async () => {
