@@ -53,7 +53,7 @@ jobs:
           at: ~/project
       - run:
           name: Install required modules
-          command: npm install <module-name>
+          command: npm install aws-sdk
       - run:
           name: Update config values table
           command: npm run update-config
