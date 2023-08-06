@@ -62,7 +62,14 @@ jobs:
     docker:
       - image: circleci/python:3.8
     steps:
-      - run: aws lambda invoke --function-name setConfig output.txt
+      - run: 
+          name: Install AWS CLI
+          command: |
+            sudo apt-get -y update
+            sudo apt-get -y install awscli
+      - run:
+          name: Invoke setConfig Lambda function
+          command: aws lambda invoke --function-name setConfig output.txt
 
 workflows:
 
