@@ -14,7 +14,7 @@ const updateConfigValues = async () => {
 
       if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
-          TableName: Process.env.CONFIG_TABLE_NAME,
+          TableName: process.env.CONFIG_VALUES_TABLE,
           Key: { id: fieldName },
           UpdateExpression: 'SET #data = :fieldValues',
           ExpressionAttributeNames: { '#data': 'data' },
