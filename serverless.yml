@@ -40,7 +40,7 @@ resources:
         TableName: ${self:service}-${self:provider.stage}-config-values
         AttributeDefinitions:
           - AttributeName: value
-            AttributeType: s
+            AttributeType: S
         KeySchema:
           - AttributeName: value
             KeyType: HASH
