@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
-const configValues = require('./configValues');
+const configValues = require('../configValues');
+
 
 AWS.config.update({ region: 'ap-south-1' });
 
