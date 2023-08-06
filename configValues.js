@@ -145,7 +145,7 @@ const configValues = {
   
     pizzaPackSkuOrder: ["C", "E", "S", "A", "R", "N", "M", "B", "I", "V", "H", "L", "X", "Y", "Z"],
   
-    ghostBins: new Set([
+    ghostBins: ([
       "LOUS-2DD", "LOUS-4DD", "LOUS-6DD",
       "LOUS-2TH1DD", "LOUS-2TH5DD", "LOUS-4TH",
       "LOUS-6TH", "LOUS-6DDTH", "LOUS-2TH5DD", "LOUS-7TH"

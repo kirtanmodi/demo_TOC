@@ -5,7 +5,7 @@ const tableName = 'demo-toc-config-values';
 
 exports.handler = async (event) => {
   try {
-    const fieldName = event.fieldName; // Assuming the field name is provided in the event object
+    const fieldName = event.fieldName; 
     const fieldValues = await fetchConfigValues(fieldName);
 
     if (fieldValues) {

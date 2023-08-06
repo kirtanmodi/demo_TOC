@@ -16,10 +16,11 @@ const updateConfigValues = async () => {
   console.log('tableName:', tableName);
   try {
     for (const fieldName in configValues) {
-      const fieldValues = configValues[fieldName];
+      const fieldValues = JSON.stringify(configValues[fieldName]);
       const existingFieldValues = await fetchConfigValues(fieldName);
+      // console.log('fieldValues:', fieldValues);
 
-      console.log('fieldName:', fieldName);
+      // console.log('fieldName:', fieldName);
 
       if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
@@ -30,7 +31,6 @@ const updateConfigValues = async () => {
           },
         };
 
-        // update the config value
         await docClient.put(updateParams).promise();
 
 
