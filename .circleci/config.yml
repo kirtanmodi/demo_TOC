@@ -57,6 +57,12 @@ jobs:
       - run:
           name: Update config values table
           command: npm run update-config
+  
+  update-dynamodb:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - run: aws lambda invoke --function-name setConfig output.txt
 
 workflows:
 
@@ -72,7 +78,13 @@ workflows:
           filters:
             branches:
               only: main
-      - update_config:
+      # - update_config:
+      #     requires:
+      #       - deploy
+      #     filters:
+      #       branches:
+      #         only: main
+      - update-dynamodb:
           requires:
             - deploy
           filters:

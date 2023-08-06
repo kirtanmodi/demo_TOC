@@ -48,7 +48,7 @@ const updateConfigValues = async () => {
 };
 
 const fetchConfigValues = async (fieldName) => {
-  
+
   const queryParams = {
     TableName: tableName,
     Key: { value: fieldName },
@@ -58,4 +58,4 @@ const fetchConfigValues = async (fieldName) => {
   return data.Item ? data.Item.data : null;
 };
 
-module.exports = updateConfigValues();
+module.exports = updateConfigValues;
