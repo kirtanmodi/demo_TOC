@@ -1,12 +1,20 @@
 {
   "name": "demo_toc",
   "version": "1.0.0",
-  "description": "",
+  "description": "A demo project for Table of Config (TOC)",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node handler.js",
+    "test": "echo \"No tests yet\"",
+    "build": "your-build-command",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod",
+    "update-config": "node scripts/updateConfigTable.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1430.0"
+  }
 }
