@@ -5,10 +5,10 @@ const configValues = require('../configValues');
 AWS.config.update({ region: 'ap-south-1' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.CONFIG_VALUES_TABLE;
+const tableName = 'demo-toc-config-values';
 
 
-const updateConfigValues = async () => {
+export const updateConfigValues = async () => {
 
   console.log('process.env.CONFIG_VALUES_TABLE:', process.env);
   console.log('tableName:', tableName);
@@ -37,6 +37,7 @@ const updateConfigValues = async () => {
     console.log('All config values updated successfully.');
   } catch (error) {
     console.error('Error updating config values:', error);
+    throw error;
   }
 };
 
@@ -50,4 +51,4 @@ const fetchConfigValues = async (fieldName) => {
   return data.Item ? data.Item.data : null;
 };
 
-updateConfigValues();
+// updateConfigValues();

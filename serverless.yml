@@ -37,13 +37,20 @@ functions:
           path: config
           method: get
           cors: true
+  setConfig:
+    handler: scripts/updateConfigTable.js.updateConfigValues
+    events:
+      - http:
+          path: config
+          method: post
+          cors: true
 
 resources:
   Resources:
     configValuesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-${self:provider.stage}-config-values
+        TableName: ${self:service}-config-values
         AttributeDefinitions:
           - AttributeName: value
             AttributeType: S
