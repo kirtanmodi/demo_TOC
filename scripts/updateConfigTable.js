@@ -8,7 +8,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = 'demo-toc-config-values';
 
 
-exports.updateConfigValues = async () => {
+export const updateConfigValues = async () => {
 
   console.log('process.env.CONFIG_VALUES_TABLE:', process.env);
   console.log('tableName:', tableName);

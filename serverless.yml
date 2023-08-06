@@ -58,3 +58,12 @@ resources:
           - AttributeName: value
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+
+custom:
+  scripts:
+        hooks:
+          'after:deploy:deploy': npm run update-config
+
+
+plugins:
+- serverless-plugin-scripts
