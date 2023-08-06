@@ -2,6 +2,8 @@ service: demo-toc
 
 frameworkVersion: "3"
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -9,7 +11,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     CURRENT_STAGE: ${sls:stage}
-    CONFIG_VALUES_TABLE: ${self:service}-${self:provider.stage}-config-values
+    CONFIG_VALUES_TABLE: 
+      Ref: ConfigValuesTable
   iam:
     role:
       statements:

@@ -5,16 +5,21 @@ const configValues = require('../configValues');
 AWS.config.update({ region: 'ap-south-1' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
+const tableName = process.env.CONFIG_VALUES_TABLE;
+
 
 const updateConfigValues = async () => {
+
+  console.log('table name', tableName);
   try {
     for (const fieldName in configValues) {
       const fieldValues = configValues[fieldName];
       const existingFieldValues = await fetchConfigValues(fieldName);
 
+
       if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
-          TableName: process.env.CONFIG_VALUES_TABLE,
+          TableName: tableName,
           Key: { id: fieldName },
           UpdateExpression: 'SET #data = :fieldValues',
           ExpressionAttributeNames: { '#data': 'data' },
@@ -36,7 +41,7 @@ const updateConfigValues = async () => {
 
 const fetchConfigValues = async (fieldName) => {
   const queryParams = {
-    TableName: process.env.CONFIG_VALUES_TABLE,
+    TableName: tableName,
     Key: { id: fieldName },
   };
 
