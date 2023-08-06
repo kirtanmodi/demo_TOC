@@ -40,8 +40,8 @@ resources:
         TableName: ${self:service}-${self:provider.stage}-config-values
         AttributeDefinitions:
           - AttributeName: value
-            AttributeType: S
+            AttributeType: s
         KeySchema:
-          - AttributeName: id
+          - AttributeName: value
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
