@@ -38,7 +38,7 @@ functions:
           method: get
           cors: true
   setConfig:
-    handler: scripts/updateConfigTable.js.updateConfigValues
+    handler: updateConfigTable.handler
     events:
       - http:
           path: config

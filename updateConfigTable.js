@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const configValues = require('../configValues');
+const configValues = require('./configValues');
 
 
 AWS.config.update({ region: 'ap-south-1' });
@@ -9,7 +9,7 @@ const tableName = 'demo-toc-config-values';
 const test = process.env.CURRENT_STAGE
 
 
-const updateConfigValues = async () => {
+module.exports.handler = async () => {
 
   console.log('test:', test);
 
@@ -58,4 +58,3 @@ const fetchConfigValues = async (fieldName) => {
   return data.Item ? data.Item.data : null;
 };
 
-module.exports = updateConfigValues;
