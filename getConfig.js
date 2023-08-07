@@ -26,6 +26,7 @@ const createResponse = (statusCode, body) => {
 
 exports.handler = async (event) => {
   try {
+    console.log(event)
     const fieldName = event.fieldName;
 
     if (!fieldName) {
