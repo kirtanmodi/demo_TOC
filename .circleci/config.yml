@@ -68,11 +68,9 @@ jobs:
             sudo apt-get -y update
             sudo apt-get -y install awscli
       - run:
-          name: check circle profile name
-          command: aws configure list
-      - run:
           name: Invoke setConfig Lambda function
-          command: aws lambda invoke --function-name setConfig --region ap-south-1 out --profile default
+          # function name is ${servicename}-${stage}-setConfig
+          command: aws lambda invoke --function-name ${CIRCLE_PROJECT_REPONAME}-<< parameters.stage >>-setConfig output.txt 
 
 workflows:
 
