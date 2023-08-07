@@ -8,7 +8,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     CURRENT_STAGE: ${sls:stage}
-    CONFIG_VALUES_TABLE: configValuesTable
+    CONFIG_VALUES_TABLE: ${self:custom.configValuesTablename}
   iam:
     role:
       statements:
@@ -20,7 +20,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: !GetAtt configValuesTable.Arn
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.configValuesTablename}"
 
 functions:
   hello:
