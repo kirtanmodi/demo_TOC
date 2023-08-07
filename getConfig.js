@@ -20,7 +20,7 @@ const fetchConfigValues = async (fieldName) => {
 const createResponse = (statusCode, body) => {
   return {
     statusCode: statusCode,
-    body: JSON.stringify(body),
+    body: (body),
   };
 };
 
@@ -41,6 +41,6 @@ exports.handler = async (event) => {
     }
   } catch (error) {
     console.error('Error fetching config values:', error);
-    return createResponse(500, { message: 'Internal server error.' });
+    return createResponse(500, error);
   }
 };
