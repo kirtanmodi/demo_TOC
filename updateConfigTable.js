@@ -23,7 +23,6 @@ module.exports.handler = async () => {
             value: fieldName,
             data: fieldValues,
           },
-          ConditionExpression: 'attribute_not_exists(value)',
         };
 
         await docClient.put(updateParams).promise();
