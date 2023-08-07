@@ -59,6 +59,10 @@ jobs:
           command: npm run update-config
   
   update-dynamodb:
+    parameters:
+      stage:
+        type: string
+        default: dev
     docker:
       - image: circleci/python:3.8
     steps:
