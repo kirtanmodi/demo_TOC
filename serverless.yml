@@ -26,22 +26,22 @@ functions:
   hello:
     handler: handler.hello
     events:
-      - http:
-          path: hello
+      - httpApi:
+          path: /hello
           method: get
           cors: true
   getConfig:
     handler: getConfig.handler
     events:
-      - http:
-          path: config
+      - httpApi:
+          path: /config-values
           method: post
           cors: true
   setConfig:
     handler: updateConfigTable.handler
     events:
-      - http:
-          path: config
+      - httpApi:
+          path: /config-values
           method: post
           cors: true
   updateConfig:
