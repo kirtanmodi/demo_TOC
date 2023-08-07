@@ -1,6 +1,8 @@
-const { DynamoDBClient, GetItemCommand } = require('@aws-sdk/client-dynamodb');
+const AWS = require('aws-sdk');
 
-const client = new DynamoDBClient({ region: 'ap-south-1' });
+const docClient = new AWS.DynamoDB.DocumentClient();
+
+
 const tableName = process.env.CONFIG_VALUES_TABLE
 
 exports.handler = async (event) => {
@@ -35,7 +37,7 @@ const fetchConfigValues = async (fieldName) => {
       Key: { value: fieldName },
     };
 
-    const data = await client.send(new GetItemCommand(queryParams));
+    const data = await docClient.get(queryParams).promise();
     return data.Item ? data.Item.data : null;
   } catch (error) {
     console.error('Error fetching config values:', error);
