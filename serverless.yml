@@ -35,7 +35,7 @@ functions:
     events:
       - http:
           path: config
-          method: get
+          method: post
           cors: true
   setConfig:
     handler: updateConfigTable.handler
