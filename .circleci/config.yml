@@ -74,7 +74,7 @@ jobs:
       - run:
           name: Invoke setConfig Lambda function
           # function name is ${servicename}-${stage}-setConfig
-          command: aws lambda invoke --function-name ${CIRCLE_PROJECT_REPONAME}-<< parameters.stage >>-setConfig output.txt 
+          command: aws lambda invoke --function-name ${CIRCLE_PROJECT_REPONAME}-<< parameters.stage >>-setConfi --region ap-south-1 output.txt 
 
 workflows:
 
