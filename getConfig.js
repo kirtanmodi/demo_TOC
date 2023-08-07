@@ -20,7 +20,7 @@ const fetchConfigValues = async (fieldName) => {
 const createResponse = (statusCode, body) => {
   return {
     statusCode: statusCode,
-    body: (body),
+    body: JSON.stringify(body),
   };
 };
 
