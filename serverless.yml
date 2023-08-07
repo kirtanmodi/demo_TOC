@@ -67,12 +67,3 @@ resources:
 
 custom:
   configValuesTablename: configValues-${self:provider.stage}
-
-# custom:
-#   scripts:
-#         hooks:
-#           'after:deploy:deploy': npm run update-config
-
-
-# plugins:
-# - serverless-plugin-scripts
