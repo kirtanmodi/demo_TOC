@@ -6,7 +6,25 @@ AWS.config.update({ region: process.env.AWS_REGION || 'ap-south-1' });
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.CONFIG_VALUES_TABLE;
 
+const checkIfValueExists = async (fieldName) => {
+  const params = {
+    TableName: tableName,
+    Key: {
+      value: fieldName,
+    },
+  };
+
+  const result = await docClient.get(params).promise();
+  return result.Item !== undefined;
+};
+
 const updateConfigValue = async (fieldName, fieldValues) => {
+  const exists = await checkIfValueExists(fieldName);
+  if (exists) {
+    console.log(`Config value for ${fieldName} already exists. Skipping update.`);
+    return;
+  }
+
   const updateParams = {
     TableName: tableName,
     Item: {
@@ -21,6 +39,7 @@ const updateConfigValue = async (fieldName, fieldValues) => {
 
 module.exports.handler = async () => {
   console.log('tableName:', tableName);
+
   try {
     const keys = Object.keys(configValues);
     for (const fieldName of keys) {
