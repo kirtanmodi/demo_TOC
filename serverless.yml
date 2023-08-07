@@ -8,7 +8,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     CURRENT_STAGE: ${sls:stage}
-    CONFIG_VALUES_TABLE: !Ref configValuesTable
+    CONFIG_VALUES_TABLE: configValuesTable
   iam:
     role:
       statements:
@@ -50,7 +50,7 @@ resources:
     configValuesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-config-values
+        TableName: ${self:custom.configValuesTablename}
         AttributeDefinitions:
           - AttributeName: value
             AttributeType: S
@@ -58,6 +58,9 @@ resources:
           - AttributeName: value
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+
+custom:
+  configValuesTablename: configValues-${self:provider.stage}
 
 # custom:
 #   scripts:

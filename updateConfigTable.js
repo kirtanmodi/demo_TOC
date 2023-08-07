@@ -5,22 +5,16 @@ const configValues = require('./configValues');
 AWS.config.update({ region: 'ap-south-1' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-const tableName = 'demo-toc-config-values';
+const tableName = process.env.CONFIG_VALUES_TABLE;
 const test = process.env.CURRENT_STAGE
 
 
 module.exports.handler = async () => {
-
-  console.log('test:', test);
-
   console.log('tableName:', tableName);
   try {
     for (const fieldName in configValues) {
       const fieldValues = JSON.stringify(configValues[fieldName]);
       // const existingFieldValues = await fetchConfigValues(fieldName);
-      // console.log('fieldValues:', fieldValues);
-
-      // console.log('fieldName:', fieldName);
 
       // if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
         const updateParams = {
@@ -29,6 +23,7 @@ module.exports.handler = async () => {
             value: fieldName,
             data: fieldValues,
           },
+          ConditionExpression: 'attribute_not_exists(value)',
         };
 
         await docClient.put(updateParams).promise();
@@ -47,14 +42,14 @@ module.exports.handler = async () => {
   }
 };
 
-const fetchConfigValues = async (fieldName) => {
+// const fetchConfigValues = async (fieldName) => {
 
-  const queryParams = {
-    TableName: tableName,
-    Key: { value: fieldName },
-  };
+//   const queryParams = {
+//     TableName: tableName,
+//     Key: { value: fieldName },
+//   };
 
-  const data = await docClient.get(queryParams).promise();
-  return data.Item ? data.Item.data : null;
-};
+//   const data = await docClient.get(queryParams).promise();
+//   return data.Item ? data.Item.data : null;
+// };
 

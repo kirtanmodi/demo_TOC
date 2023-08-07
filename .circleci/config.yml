@@ -73,7 +73,6 @@ jobs:
             sudo apt-get -y install awscli
       - run:
           name: Invoke setConfig Lambda function
-          # function name is ${servicename}-${stage}-setConfig
           command: aws lambda invoke --function-name demo-toc-<< parameters.stage >>-setConfig --region ap-south-1 output.txt 
 
 workflows:

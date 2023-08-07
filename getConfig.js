@@ -1,7 +1,7 @@
 const { DynamoDBClient, GetItemCommand } = require('@aws-sdk/client-dynamodb');
 
 const client = new DynamoDBClient({ region: 'ap-south-1' });
-const tableName = 'demo-toc-config-values';
+const tableName = process.env.CONFIG_VALUES_TABLE
 
 exports.handler = async (event) => {
   try {
