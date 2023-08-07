@@ -44,7 +44,13 @@ functions:
           path: config
           method: post
           cors: true
-
+  updateConfig:
+    handler: updateTable.handler
+    events:
+      - http:
+          path: config
+          method: put
+          cors: true
 resources:
   Resources:
     configValuesTable:
