@@ -1,54 +1,35 @@
 const AWS = require('aws-sdk');
 const configValues = require('./configValues');
 
-
-AWS.config.update({ region: 'ap-south-1' });
+AWS.config.update({ region: process.env.AWS_REGION || 'ap-south-1' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.CONFIG_VALUES_TABLE;
-const test = process.env.CURRENT_STAGE
 
+const updateConfigValue = async (fieldName, fieldValues) => {
+  const updateParams = {
+    TableName: tableName,
+    Item: {
+      value: fieldName,
+      data: JSON.stringify(fieldValues),
+    },
+  };
+
+  await docClient.put(updateParams).promise();
+  console.log(`Config values for ${fieldName} updated successfully.`);
+};
 
 module.exports.handler = async () => {
   console.log('tableName:', tableName);
   try {
-    for (const fieldName in configValues) {
-      const fieldValues = JSON.stringify(configValues[fieldName]);
-      // const existingFieldValues = await fetchConfigValues(fieldName);
-
-      // if (!existingFieldValues || JSON.stringify(existingFieldValues) !== JSON.stringify(fieldValues)) {
-        const updateParams = {
-          TableName: tableName,
-          Item: {
-            value: fieldName,
-            data: fieldValues,
-          },
-        };
-
-        await docClient.put(updateParams).promise();
-
-
-        console.log(`Config values for ${fieldName} updated successfully.`);
-      // } else {
-      //   console.log(`Config values for ${fieldName} are already up to date. Skipping update.`);
-      // }
+    const keys = Object.keys(configValues);
+    for (const fieldName of keys) {
+      await updateConfigValue(fieldName, configValues[fieldName]);
     }
-
+    
     console.log('All config values updated successfully.');
   } catch (error) {
     console.error('Error updating config values:', error);
     throw error;
   }
 };
-
-// const fetchConfigValues = async (fieldName) => {
-
-//   const queryParams = {
-//     TableName: tableName,
-//     Key: { value: fieldName },
-//   };
-
-//   const data = await docClient.get(queryParams).promise();
-//   return data.Item ? data.Item.data : null;
-// };
-
