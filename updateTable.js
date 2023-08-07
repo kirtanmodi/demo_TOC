@@ -26,6 +26,21 @@ const createResponse = (statusCode, body) => {
   };
 };
 
+const fetchConfigValues = async (fieldName) => {
+    const queryParams = {
+      TableName: tableName,
+      Key: { value: fieldName },
+    };
+  
+    try {
+      const data = await docClient.get(queryParams).promise();
+      return data.Item ? data.Item.data : null;
+    } catch (error) {
+      console.error('Error fetching config values:', error);
+      throw new Error('Failed to fetch config values from database');
+    }
+  };
+
 exports.handler = async (event) => {
     try {
       if (!Array.isArray(event.fields) || event.fields.length === 0) {
@@ -35,6 +50,12 @@ exports.handler = async (event) => {
       for (const field of event.fields) {
         const fieldName = field.fieldName;
         const fieldValues = field.fieldValues;
+  
+        const existingValue = await fetchConfigValues(fieldName);
+        if (existingValue === null) {
+          console.warn(`Field name ${fieldName} not found in config values. Skipping update.`);
+          continue; // Skip to the next field if this one does not exist
+        }
   
         if (!fieldName || fieldValues === undefined) {
           return createResponse(400, { message: 'Field name and values are required for each field.' });
@@ -68,10 +89,6 @@ exports.handler = async (event) => {
 //           "C": "100",
 //           "S": "101",}
 //       },
-//       {
-//         "fieldName": "featureToggle",
-//         "fieldValues": true
-//       }
 //     ]
 //   }
   
