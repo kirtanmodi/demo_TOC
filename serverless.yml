@@ -41,14 +41,14 @@ functions:
     handler: updateConfigTable.handler
     events:
       - httpApi:
-          path: /config-values
-          method: post
+          path: /seed-config
+          method: put
           cors: true
   updateConfig:
     handler: updateTable.handler
     events:
       - http:
-          path: config
+          path: /config-values
           method: put
           cors: true
 resources:

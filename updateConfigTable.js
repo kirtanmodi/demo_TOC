@@ -45,10 +45,16 @@ module.exports.handler = async () => {
     for (const fieldName of keys) {
       await updateConfigValue(fieldName, configValues[fieldName]);
     }
-    
+
     console.log('All config values updated successfully.');
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'All config values updated successfully.' }),
+    };
+
   } catch (error) {
     console.error('Error updating config values:', error);
-    throw error;
+    throw new Error('Failed to update config values in database');
   }
 };

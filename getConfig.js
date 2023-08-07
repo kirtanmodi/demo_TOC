@@ -24,10 +24,11 @@ const createResponse = (statusCode, body) => {
   };
 };
 
+
+
 exports.handler = async (event) => {
   try {
-    console.log(event)
-    const fieldName = event.fieldName;
+    const fieldName = JSON.parse(event.body).fieldName;
 
     if (!fieldName) {
       return createResponse(400, { message: 'Field name is required.' });
@@ -42,6 +43,6 @@ exports.handler = async (event) => {
     }
   } catch (error) {
     console.error('Error fetching config values:', error);
-    return createResponse(500, error);
+    return createResponse(500, { message: 'Internal server error.' });
   }
 };

@@ -31,7 +31,7 @@ const fetchConfigValues = async (fieldName) => {
       TableName: tableName,
       Key: { value: fieldName },
     };
-  
+
     try {
       const data = await docClient.get(queryParams).promise();
       return data.Item ? data.Item.data : null;
@@ -41,54 +41,56 @@ const fetchConfigValues = async (fieldName) => {
     }
   };
 
+
+/**
+ * AWS Lambda function handler that updates the config values based on the provided field name.
+ * @example
+*{
+*     "fields": [
+*       {
+*         "fieldName": "states",
+*         "fieldValues": {
+*           "Alabama": "AL",
+*           "Alaska": "AK",
+*          "Arizona": "AZ",}
+*       },
+*       {
+*         "fieldName": "combosku",
+*         "fieldValues": {
+*           "C": "100",
+*           "S": "101",}
+*       },
+*     ]
+*   }
+* */
 exports.handler = async (event) => {
+  const fields = JSON.parse(event.body).fields;
     try {
-      if (!Array.isArray(event.fields) || event.fields.length === 0) {
+      if (!fields) {
         return createResponse(400, { message: 'Fields are required.' });
       }
-  
-      for (const field of event.fields) {
+
+      for (const field of fields) {
         const fieldName = field.fieldName;
         const fieldValues = field.fieldValues;
-  
+
         const existingValue = await fetchConfigValues(fieldName);
         if (existingValue === null) {
-          console.warn(`Field name ${fieldName} not found in config values. Skipping update.`);
-          continue; // Skip to the next field if this one does not exist
+          console.log(`Field name ${fieldName} not found in config values. Skipping update.`);
+          continue;
         }
-  
+
         if (!fieldName || fieldValues === undefined) {
           return createResponse(400, { message: 'Field name and values are required for each field.' });
         }
-  
+
         await updateConfigValues(fieldName, fieldValues);
       }
-  
+
       return createResponse(200, { message: 'Config values updated successfully.' });
     } catch (error) {
       console.error('Error updating config values:', error);
       return createResponse(500, { message: 'Internal server error.' });
     }
   };
-  
 
-// sample data
-
-// {
-//     "fields": [
-//       {
-//         "fieldName": "states",
-//         "fieldValues": {
-//           "Alabama": "AL",
-//           "Alaska": "AK",
-//          "Arizona": "AZ",}
-//       },
-//       {
-//         "fieldName": "combosku",
-//         "fieldValues": {
-//           "C": "100",
-//           "S": "101",}
-//       },
-//     ]
-//   }
-  
