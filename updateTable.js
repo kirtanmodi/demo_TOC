@@ -65,33 +65,39 @@ const fetchConfigValues = async (fieldName) => {
 * */
 exports.handler = async (event) => {
   const fields = JSON.parse(event.body).fields;
-    try {
-      if (!fields || fields.length === 0) {
-        return createResponse(400, { message: 'Fields are required.' });
-      }
-
-      for (const field of fields) {
-        const fieldName = field.fieldName;
-        const fieldValues = field.fieldValues;
-
-        const existingValue = await fetchConfigValues(fieldName);
-        if (existingValue === null) {
-          console.log(`Field name ${fieldName} not found in config values. Skipping update.`);
-
-          return createResponse(404, { message: `Field name ${fieldName} not found in config values. Skipping update.` });
-        }
-
-        if (!fieldName || fieldValues === undefined) {
-          return createResponse(400, { message: 'Field name and values are required for each field.' });
-        }
-
-        await updateConfigValues(fieldName, fieldValues);
-      }
-
-      return createResponse(200, { message: 'Config values updated successfully.' });
-    } catch (error) {
-      console.error('Error updating config values:', error);
-      return createResponse(500, { message: 'Internal server error.' });
+  try {
+    if (!fields || fields.length === 0) {
+      return createResponse(400, { message: 'Fields are required.' });
     }
-  };
+
+
+    for (const field of fields) {
+      const fieldName = field.fieldName;
+      if (!fieldName) {
+        return createResponse(400, { message: 'Field name is required for each field.' });
+      }
+
+      const existingValue = await fetchConfigValues(fieldName);
+      if (existingValue === null) {
+        return createResponse(404, { message: `Field name ${fieldName} not found in config values. Values not updated` });
+      }
+    }
+
+
+    for (const field of fields) {
+      const fieldName = field.fieldName;
+      const fieldValues = field.fieldValues;
+      if (fieldValues === undefined) {
+        return createResponse(400, { message: 'Values are required for each field.' });
+      }
+
+      await updateConfigValues(fieldName, fieldValues);
+    }
+
+    return createResponse(200, { message: 'Config values updated successfully.' });
+  } catch (error) {
+    console.error('Error updating config values:', error);
+    return createResponse(500, { message: 'Internal server error.' });
+  }
+};
 

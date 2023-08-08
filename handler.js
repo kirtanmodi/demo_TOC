@@ -23,13 +23,14 @@ module.exports.hello = async (event) => {
 
   const pizzaPackSkuOrder = await fetchConfigValues('pizzaPackSkuOrder') 
 
-  const comboSkus = await fetchConfigValues('comboSkus') 
+  const combosku = await fetchConfigValues('combosku') 
 
   const gb = await fetchConfigValues('ghostBins');
   const  ghostBins =  new Set(gb)
 
   console.log('pizzaPackSkuOrder', pizzaPackSkuOrder)
-  console.log('comboSkus', comboSkus)
+  console.log('combosku', combosku)
+  console.log('gb', gb)
   console.log('ghostBins', ghostBins)
 
   return {
@@ -38,6 +39,7 @@ module.exports.hello = async (event) => {
       {
         pizzaPackSkuOrder,
         comboSkus,
+        gb,
         ghostBins
       }),
     }
