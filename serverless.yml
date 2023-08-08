@@ -26,30 +26,31 @@ functions:
   hello:
     handler: handler.hello
     events:
-      - httpApi:
+      - http:
           path: /hello
           method: get
-          cors: true
-  getConfig:
-    handler: getConfig.handler
-    events:
-      - httpApi:
-          path: /config-values
-          method: post
           cors: true
   setConfig:
     handler: updateConfigTable.handler
     events:
-      - httpApi:
-          path: /seed-config
-          method: put
+      - http:
+          method: post
+          path: /seed-config-values
           cors: true
+  getConfig:
+    handler: getConfig.handler
+    events:
+      - http:
+          method: get
+          path: /config-values
+          cors: true
+ 
   updateConfig:
     handler: updateTable.handler
     events:
       - http:
-          path: /config-values
           method: put
+          path: /config-values
           cors: true
 resources:
   Resources:

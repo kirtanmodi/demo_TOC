@@ -66,7 +66,7 @@ const fetchConfigValues = async (fieldName) => {
 exports.handler = async (event) => {
   const fields = JSON.parse(event.body).fields;
     try {
-      if (!fields) {
+      if (!fields || fields.length === 0) {
         return createResponse(400, { message: 'Fields are required.' });
       }
 
@@ -77,7 +77,8 @@ exports.handler = async (event) => {
         const existingValue = await fetchConfigValues(fieldName);
         if (existingValue === null) {
           console.log(`Field name ${fieldName} not found in config values. Skipping update.`);
-          continue;
+
+          return createResponse(404, { message: `Field name ${fieldName} not found in config values. Skipping update.` });
         }
 
         if (!fieldName || fieldValues === undefined) {
