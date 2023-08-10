@@ -70,7 +70,7 @@ const fetchConfigValues = async (fieldName) => {
 exports.handler = async (event) => {
   const fields = JSON.parse(event.body).fields;
   try {
-    if (!fields || fields.length === 0 && fields.deleteTable === true) {
+    if (fields.deleteTable === true) {
       const scanParams = {
         TableName: tableName,
       };
