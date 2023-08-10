@@ -16,15 +16,16 @@ const fetchAllConfigValues = async () => {
   }
 };
 
-
 const createResponse = (statusCode, body) => {
   return {
     statusCode: statusCode,
+    headers: {
+      "Access-Control-Allow-Origin": "*", // You can specify a specific origin
+      "Access-Control-Allow-Credentials": true,
+    },
     body: JSON.stringify(body),
   };
 };
-
-
 
 exports.handler = async () => {
   try {
