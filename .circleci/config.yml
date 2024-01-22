@@ -93,7 +93,7 @@ workflows:
           requires:
             - build
           stage: prod
-          context: toc-nonprod-prod
+          context: toc-prod-kirtan
           filters:
             branches:
               only: release
