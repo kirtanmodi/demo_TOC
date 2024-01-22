@@ -37,6 +37,13 @@ jobs:
       - run:
           name: Deploy serverless package
           command: npx serverless deploy --stage << parameters.stage >>
+      - run:
+          name: Set deployment env vars
+          command: |
+            ENV_FILE='.env'
+            touch $ENV_FILE
+            echo EI_CLOUD_ACC_ID=$EI_CLOUD_ACC_ID >> $ENV_FILE
+            echo EI_CLOUD_ACC_NAME=$EI_CLOUD_ACC_NAME >> $ENV_FILE
 
   update-dynamodb:
     parameters:
@@ -65,6 +72,7 @@ workflows:
       - deploy:
           requires:
             - build
+          context: toc-nonprod-kirtan
           filters:
             branches:
               only: main
@@ -85,6 +93,7 @@ workflows:
           requires:
             - build
           stage: prod
+          context: toc-nonprod-prod
           filters:
             branches:
               only: release
