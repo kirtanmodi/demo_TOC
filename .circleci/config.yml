@@ -35,16 +35,15 @@ jobs:
           name: Install Serverless framework
           command: npm install serverless
       - run:
+        name: Set deployment env vars
+        command: |
+          ENV_FILE='.env'
+          touch $ENV_FILE
+          echo EI_CLOUD_ACC_ID=$EI_CLOUD_ACC_ID >> $ENV_FILE
+          echo EI_CLOUD_ACC_NAME=$EI_CLOUD_ACC_NAME >> $ENV_FILE
+      - run:
           name: Deploy serverless package
           command: npx serverless deploy --stage << parameters.stage >>
-      - run:
-          name: Set deployment env vars
-          command: |
-            ENV_FILE='.env'
-            touch $ENV_FILE
-            echo EI_CLOUD_ACC_ID=$EI_CLOUD_ACC_ID >> $ENV_FILE
-            echo EI_CLOUD_ACC_NAME=$EI_CLOUD_ACC_NAME >> $ENV_FILE
-
   update-dynamodb:
     parameters:
       stage:
