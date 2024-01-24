@@ -1,5 +1,5 @@
-'use strict';
-const {DynamoDB} = require("aws-sdk");
+"use strict";
+const { DynamoDB } = require("aws-sdk");
 
 const fetchConfigValues = async (fieldName) => {
   const db = new DynamoDB.DocumentClient();
@@ -19,28 +19,35 @@ const fetchConfigValues = async (fieldName) => {
 };
 
 module.exports.hello = async (event) => {
+  const eiCloudAccName =
+    process.env.EI_CLOUD_ACC_NAME ?? "eiCloudAccName not set";
+  const eiCloudAccId = process.env.EI_CLOUD_ACC_ID ?? "eiCloudAccId not set";
 
+  const pizzaPackSkuOrder = await fetchConfigValues("pizzaPackSkuOrder");
 
-  const pizzaPackSkuOrder = await fetchConfigValues('pizzaPackSkuOrder') 
+  const combosku = await fetchConfigValues("combosku");
 
-  const combosku = await fetchConfigValues('combosku') 
+  const gb = await fetchConfigValues("ghostBins");
+  const ghostBins = new Set(gb);
 
-  const gb = await fetchConfigValues('ghostBins');
-  const  ghostBins =  new Set(gb)
+  console.log("eiCloudAccName", eiCloudAccName);
+  console.log("eiCloudAccId", eiCloudAccId);
+  console.log("pizzaPackSkuOrder", pizzaPackSkuOrder);
+  console.log("combosku", combosku);
+  console.log("gb", gb);
+  console.log("ghostBins", ghostBins);
 
-  console.log('pizzaPackSkuOrder', pizzaPackSkuOrder)
-  console.log('combosku', combosku)
-  console.log('gb', gb)
-  console.log('ghostBins', ghostBins)
+  if (ghostBins.has("LOUS-2DD")) {
+    console.log("ghostBins has LOUS-2DD");
+  }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(
-      {
-        pizzaPackSkuOrder,
-        combosku,
-        gb,
-        ghostBins
-      }),
-    }
+    body: JSON.stringify({
+      pizzaPackSkuOrder,
+      combosku,
+      gb,
+      ghostBins,
+    }),
+  };
 };
