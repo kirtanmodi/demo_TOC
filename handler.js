@@ -41,6 +41,14 @@ module.exports.hello = async (event) => {
     console.log("ghostBins has LOUS-2DD");
   }
 
+  const sortedPizzaPackSkuOrder = pizzaPackSkuOrder.sort((a, b) => {
+    return a - b;
+  }); 
+
+  console.log("sortedPizzaPackSkuOrder", sortedPizzaPackSkuOrder);
+
+  console.log("combosku[cc]", combosku["cc"]);
+
   return {
     statusCode: 200,
     body: JSON.stringify({

@@ -38,8 +38,6 @@ const updateConfigValue = async (fieldName, fieldValues) => {
 };
 
 module.exports.handler = async () => {
-  console.log('tableName:', tableName);
-
   try {
     const keys = Object.keys(configValues);
     for (const fieldName of keys) {

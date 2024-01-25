@@ -23,7 +23,7 @@ const fetchConfigValues = async (fieldName) => {
     const data = await db.get(queryParams).promise();
     return data.Item ? JSON.parse(data.Item.data) : null;
   } catch (error) {
-    // console.log(`Error fetching config values for ${fieldName}:`, JSON.stringify(error));
+    console.log(`Error fetching config values for ${fieldName}:`, JSON.stringify(error));
     return null;
   }
 };
@@ -181,8 +181,7 @@ export const generateCmsXML = async (orderIds) => {
   const pizzaPackSkuOrder = (await fetchConfigValues("pizzaPackSkuOrder")) ?? ["C","E","S","A","R","N","M","B","I","V","H","L","X","Y","Z",];
   // const pizzaPackSkuOrder = ['C', 'E', 'S', 'A', 'R', 'N', 'M', 'B', 'I', 'V', 'H', 'L', 'X', 'Y', 'Z'];
 
-  const comboSkus =
-    (await fetchConfigValues("comboSkus")) ?? comboSkusHardCoded;
+  const comboSkus = (await fetchConfigValues("comboSkus")) ?? comboSkusHardCoded;
 
   const bigCommerce = new BigCommerce({
     logLevel: 'info',
