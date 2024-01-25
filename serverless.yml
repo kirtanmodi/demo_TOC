@@ -156,4 +156,4 @@ functions:
 
 
 custom:
-  configValuesTablename: configValues-${self:provider.stage}
+  configValuesTablename: toc-middleware-configValues-${self:provider.stage}
