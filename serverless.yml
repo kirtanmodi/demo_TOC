@@ -7,7 +7,6 @@ provider:
   region: ap-south-1
   stage: ${opt:stage, 'dev'}
   environment:
-    CURRENT_STAGE: ${sls:stage}
     CONFIG_VALUES_TABLE: ${self:custom.configValuesTablename}
     EI_CLOUD_ACC_NAME: ${env:EI_CLOUD_ACC_NAME}
     EI_CLOUD_ACC_ID: ${env:EI_CLOUD_ACC_ID}
