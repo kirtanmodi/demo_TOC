@@ -70,5 +70,8 @@ const exampleFunction =  () => {
   console.log("eiCLoud", eiCLoud);
   console.log("eiCloudAccId", eiCloudAccId);
 
+  console.log(typeof eiCLoud);
+  console.log(typeof eiCloudAccId);
+
   return;
 }
