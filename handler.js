@@ -47,7 +47,9 @@ module.exports.hello = async (event) => {
 
   console.log("sortedPizzaPackSkuOrder", sortedPizzaPackSkuOrder);
 
-  console.log("combosku[cc]", combosku["cc"]);
+  console.log("combosku[CC]", combosku['CC']);
+
+  exampleFunction();
 
   return {
     statusCode: 200,
@@ -59,3 +61,14 @@ module.exports.hello = async (event) => {
     }),
   };
 };
+
+
+const exampleFunction =  () => {
+  const eiCLoud = process.env.EI_CLOUD_ACC_NAME ?? "eiCloudAccName not set";
+  const eiCloudAccId = process.env.EI_CLOUD_ACC_ID ?? "eiCloudAccId not set";
+
+  console.log("eiCLoud", eiCLoud);
+  console.log("eiCloudAccId", eiCloudAccId);
+
+  return;
+}
