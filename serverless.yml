@@ -1,4 +1,4 @@
-service: toc-middleware-configValues
+service: toc-middleware-configvalues
 frameworkVersion: "3"
 useDotenv: true
 provider:
