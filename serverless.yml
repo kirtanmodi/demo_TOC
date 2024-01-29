@@ -1,10 +1,10 @@
-service: demo-toc
+service: toc-middleware-configValues
 frameworkVersion: "3"
 useDotenv: true
 provider:
   name: aws
   runtime: nodejs14.x
-  region: ap-south-1
+  region: us-east-2
   stage: ${opt:stage, 'dev'}
   environment:
     CONFIG_VALUES_TABLE: ${self:custom.configValuesTablename}
@@ -91,7 +91,7 @@ resources:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: functions/handler.hello
     events:
       - http:
           path: /hello
@@ -103,7 +103,7 @@ functions:
               Ref: CognitoAuthorizer 
 
   setConfig:
-    handler: updateConfigTable.handler
+    handler: functions/updateConfigTable.handler
     events:
       - http:
           method: post
@@ -115,7 +115,7 @@ functions:
               Ref: CognitoAuthorizer 
 
   getConfig:
-    handler: getConfig.handler
+    handler: functions/getConfig.handler
     events:
       - http:
           method: get
@@ -127,7 +127,7 @@ functions:
               Ref: CognitoAuthorizer 
  
   updateConfig:
-    handler: updateTable.handler
+    handler: functions/updateTable.handler
     events:
       - http:
           method: put
@@ -139,7 +139,7 @@ functions:
               Ref: CognitoAuthorizer 
 
   changePassword:
-    handler: changePassword.handler
+    handler: functions/changePassword.handler
     events:
       - http:
           path: /changePassword
@@ -147,7 +147,7 @@ functions:
           cors: true 
 
   login:
-    handler: login.handler
+    handler: functions/login.handler
     events:
       - http:
           path: /login
@@ -156,4 +156,4 @@ functions:
 
 
 custom:
-  configValuesTablename: toc-middleware-configValues-${self:provider.stage}
+  configValuesTablename: ${self:service}-table

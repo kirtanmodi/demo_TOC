@@ -1,7 +1,8 @@
 const AWS = require('aws-sdk');
 const { corsConfig } = require('./helpers');
 
-AWS.config.update({ 'region': 'ap-south-1' });
+AWS.config.update({ region: process.env.AWS_REGION || 'us-east-2' });
+
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 module.exports.handler = async (event) => {
@@ -25,7 +26,7 @@ module.exports.handler = async (event) => {
         };
 
     } catch (error) {
-        console.log(error);
+        console.log('login error', JSON.stringify(error));
         return {
             statusCode: 500,
             headers: corsConfig.headers,

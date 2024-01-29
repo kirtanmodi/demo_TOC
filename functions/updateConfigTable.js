@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const configValues = require('./configValues');
 
-AWS.config.update({ region: process.env.AWS_REGION || 'ap-south-1' });
+AWS.config.update({ region: process.env.AWS_REGION || 'us-east-2' });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.CONFIG_VALUES_TABLE;
